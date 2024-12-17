@@ -1,10 +1,22 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from "react";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [data, setData] = useState(null); // State to store backend data
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    // Fetch data from the backend
+    fetch("/api/data") // Relative path due to proxy
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setData(data.message); // Set backend message into state
+      })
+      .catch((error) => console.error("Error fetching data:", error));
+  }, []);
 
   return (
     <>
@@ -25,11 +37,12 @@ function App() {
           Edit <code>src/App.jsx</code> and save to test HMR
         </p>
       </div>
+      <p>Data from backend: {data || "Loading..."}</p> {/* Show fetched data */}
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
