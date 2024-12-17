@@ -1,16 +1,15 @@
 import { useState, useEffect } from "react";
 import Register from "./components/Register";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import Navbar from "./components/Navbar";
 import "./App.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
   const [data, setData] = useState(null); // State to store backend data
-  const [count, setCount] = useState(0);
 
   useEffect(() => {
     // Fetch data from the backend
-    fetch("/api/data") // Relative path due to proxy
+    fetch("/api/data")
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
@@ -20,32 +19,53 @@ function App() {
   }, []);
 
   return (
-    <>
-      <h1>PregnancyJourney</h1>
-      <Register />
-      {data && <p>Data from backend: {data}</p>}
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <Router>
+      <div className="flex flex-col min-h-screen">
+        {/* Navbar */}
+        <Navbar />
+
+        {/* Main Content */}
+        <main className="flex-grow container mx-auto p-4">
+          <Routes>
+            {/* Home Page */}
+            <Route
+              path="/"
+              element={
+                <div className="text-center">
+                  <h1 className="text-4xl font-bold mb-4 text-gray-800">
+                    PregnancyJourney
+                  </h1>
+                  <Register />
+                  {data && (
+                    <p className="mt-4 text-gray-600">
+                      Data from backend: {data}
+                    </p>
+                  )}
+                </div>
+              }
+            />
+
+            {/* Register Page */}
+            <Route
+              path="/register"
+              element={
+                <div className="text-center">
+                  <h1 className="text-2xl font-bold mb-4 text-gray-800">
+                    Register Page
+                  </h1>
+                  <Register />
+                </div>
+              }
+            />
+          </Routes>
+        </main>
+
+        {/* Footer (Optional) */}
+        <footer className="bg-gray-800 text-white text-center py-4 mt-4">
+          <p>&copy; 2024 PregnancyJourney. All rights reserved.</p>
+        </footer>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p>Data from backend: {data || "Loading..."}</p> {/* Show fetched data */}
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </Router>
   );
 }
 
