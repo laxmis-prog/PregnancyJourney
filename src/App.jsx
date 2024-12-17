@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Register from "./components/Register";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
@@ -20,6 +21,9 @@ function App() {
 
   return (
     <>
+      <h1>PregnancyJourney</h1>
+      <Register />
+      {data && <p>Data from backend: {data}</p>}
       <div>
         <a href="https://vite.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
