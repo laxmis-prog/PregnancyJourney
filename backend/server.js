@@ -41,27 +41,37 @@ app.get("/", (req, res) => {
 
 //Registration Route
 app.post("/api/register", async (req, res) => {
-  const { email, password } = req.body;
+  const { email, username, password } = req.body;
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-
+    // Check if username or email already exists
     db.query(
-      "INSERT INTO users (email, password) VALUES (?, ?)",
-      [email, hashedPassword],
-      (err) => {
-        if (err) {
-          if (err.code === "ER_DUP_ENTRY") {
-            // Duplicate email error
-            res.status(400).send("Email is already registered.");
-          } else {
-            console.error(err);
-            res
-              .status(500)
-              .send("An error occurred while registering the user.");
-          }
-        } else {
-          res.status(201).send("User registered successfully!");
+      "SELECT * FROM users WHERE email = ? OR username = ?",
+      [email, username],
+      (err, result) => {
+        if (result.length > 0) {
+          return res.status(400).send("Email or Username already exists.");
         }
+
+        // Hash the password
+        bcrypt.hash(password, 10, (err, hashedPassword) => {
+          if (err) {
+            console.error(err);
+            return res.status(500).send("Error hashing password.");
+          }
+
+          // Insert new user with email, username, password, and confirmed set to false
+          const sql =
+            "INSERT INTO users (email, username, password, confirmed) VALUES (?, ?, ?, ?)";
+          db.query(sql, [email, username, hashedPassword, false], (err) => {
+            if (err) {
+              console.error(err);
+              return res
+                .status(500)
+                .send("An error occurred while registering the user.");
+            }
+            res.status(201).send("User registered successfully!");
+          });
+        });
       }
     );
   } catch (error) {
