@@ -1,9 +1,19 @@
 import express from "express";
 import mysql from "mysql2";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
+import cors from "cors";
 
 const app = express();
 const port = 5000;
+
+// Allow requests from your frontend
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Replace with your frontend's URL
+    methods: ["GET", "POST"], // Specify allowed HTTP methods
+    credentials: true, // Allow cookies or authentication headers
+  })
+);
 
 // Middleware to parse JSON
 app.use(express.json());
@@ -34,13 +44,21 @@ app.post("/api/register", async (req, res) => {
   const { email, password } = req.body;
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
+
     db.query(
       "INSERT INTO users (email, password) VALUES (?, ?)",
       [email, hashedPassword],
       (err) => {
         if (err) {
-          console.error(err);
-          res.status(500).send("An error occurred while registering the user.");
+          if (err.code === "ER_DUP_ENTRY") {
+            // Duplicate email error
+            res.status(400).send("Email is already registered.");
+          } else {
+            console.error(err);
+            res
+              .status(500)
+              .send("An error occurred while registering the user.");
+          }
         } else {
           res.status(201).send("User registered successfully!");
         }
