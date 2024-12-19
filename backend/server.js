@@ -1,10 +1,15 @@
+import database from "./db.js";
 import express from "express";
-import mysql from "mysql2";
 import bcrypt from "bcryptjs";
 import cors from "cors";
+import { sendVerificationEmail } from "./mail.js";
+import { generateVerificationToken, verifyEmail } from "./verification.js"; // Import the functions from verification.js
+import emailVerificationRoutes from "./routes/emailVerificationRoutes.js";
 
 const app = express();
 const port = 5000;
+
+app.use(emailVerificationRoutes); // Use the new route
 
 // Allow requests from your frontend
 app.use(
@@ -18,33 +23,19 @@ app.use(
 // Middleware to parse JSON
 app.use(express.json());
 
-//MySQL connection
-const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "journey",
-});
-
-db.connect((err) => {
-  if (err) {
-    console.error("Error connecting to MySQL: ", err);
-    return;
-  }
-  console.log("Connected to MySQL!");
-});
-
 // Route to send data to the frontend
-app.get("/", (req, res) => {
+app.get("/api/data", (req, res) => {
   res.json({ message: "Hello from the server!" });
 });
 
-//Registration Route
+// Registration Route
 app.post("/api/register", async (req, res) => {
   const { email, username, password } = req.body;
+  const verificationToken = generateVerificationToken(); // Generate a verification token
+
   try {
     // Check if username or email already exists
-    db.query(
+    database.query(
       "SELECT * FROM users WHERE email = ? OR username = ?",
       [email, username],
       (err, result) => {
@@ -61,16 +52,27 @@ app.post("/api/register", async (req, res) => {
 
           // Insert new user with email, username, password, and confirmed set to false
           const sql =
-            "INSERT INTO users (email, username, password, confirmed) VALUES (?, ?, ?, ?)";
-          db.query(sql, [email, username, hashedPassword, false], (err) => {
-            if (err) {
-              console.error(err);
-              return res
-                .status(500)
-                .send("An error occurred while registering the user.");
+            "INSERT INTO users (email, username, password, confirmed, verificationToken) VALUES (?, ?, ?, ?, ?)";
+          database.query(
+            sql,
+            [email, username, hashedPassword, false, verificationToken],
+            (err) => {
+              if (err) {
+                console.error(err);
+                return res
+                  .status(500)
+                  .send("An error occurred while registering the user.");
+              }
+
+              // Send verification email
+              sendVerificationEmail(email, verificationToken);
+              res
+                .status(201)
+                .send(
+                  "User registered successfully! Please check your email for verification."
+                );
             }
-            res.status(201).send("User registered successfully!");
-          });
+          );
         });
       }
     );
@@ -78,6 +80,19 @@ app.post("/api/register", async (req, res) => {
     console.error(error);
     res.status(500).send("An error occurred while registering the user.");
   }
+});
+
+// Email verification route
+app.get("/verify/:token", (req, res) => {
+  const token = req.params.token;
+
+  // Verify the email using the verification token
+  verifyEmail(token, (err, message) => {
+    if (err) {
+      return res.status(400).send(err); // Invalid or expired token
+    }
+    res.status(200).send(message); // Successful confirmation
+  });
 });
 
 // Start the server

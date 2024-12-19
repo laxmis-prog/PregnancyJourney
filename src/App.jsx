@@ -3,13 +3,14 @@ import Register from "./pages/Register";
 import Navbar from "./components/Navbar";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import EmailVerification from "./pages/EmailVerification";
 
 function App() {
   const [data, setData] = useState(null); // State to store backend data
 
   useEffect(() => {
     // Fetch data from the backend
-    fetch("/api/data")
+    fetch("http://localhost:5000/api/data")
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
@@ -57,6 +58,7 @@ function App() {
                 </div>
               }
             />
+            <Route path="/verify/:token" element={<EmailVerification />} />
           </Routes>
         </main>
 
