@@ -5,6 +5,7 @@ import cors from "cors";
 import { sendVerificationEmail } from "./mail.js";
 import { generateVerificationToken, verifyEmail } from "./verification.js"; // Import the functions from verification.js
 import emailVerificationRoutes from "./routes/emailVerificationRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 
 const app = express();
 const port = 5000;
@@ -27,6 +28,8 @@ app.use(express.json());
 app.get("/api/data", (req, res) => {
   res.json({ message: "Hello from the server!" });
 });
+
+app.use("/api", authRoutes);
 
 // Registration Route
 app.post("/api/register", async (req, res) => {

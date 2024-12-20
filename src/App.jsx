@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import EmailVerification from "./pages/EmailVerification";
+import Login from "./pages/Login";
 
 function App() {
   const [data, setData] = useState(null); // State to store backend data
@@ -59,6 +60,7 @@ function App() {
               }
             />
             <Route path="/verify/:token" element={<EmailVerification />} />
+            <Route path="/login" element={<Login />} />
           </Routes>
         </main>
 

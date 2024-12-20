@@ -24,6 +24,11 @@ const Navbar = () => {
               Register
             </Link>
           </li>
+          <li>
+            <Link to="/login" className="hover:text-blue-400">
+              Login
+            </Link>
+          </li>
         </ul>
 
         {/* Mobile Menu Button */}
@@ -62,6 +67,11 @@ const Navbar = () => {
           <li>
             <Link to="/register" className="block hover:text-blue-400">
               Register
+            </Link>
+          </li>
+          <li>
+            <Link to="/login" className="block hover:text-blue-400">
+              Login
             </Link>
           </li>
         </ul>
