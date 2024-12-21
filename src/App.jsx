@@ -1,50 +1,52 @@
 import { useState, useEffect } from "react";
-import Register from "./pages/Register";
-import Navbar from "./components/Navbar";
-import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Register from "./pages/Register";
 import EmailVerification from "./pages/EmailVerification";
 import Login from "./pages/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Dashboard from "./pages/Dashboard";
+import "./App.css";
 
 function App() {
-  const [data, setData] = useState(null); // State to store backend data
+  const [data, setData] = useState(null);
 
   useEffect(() => {
-    // Fetch data from the backend
     fetch("http://localhost:5000/api/data")
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        setData(data.message); // Set backend message into state
+        setData(data.message);
       })
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
 
   return (
     <Router>
-      <div className="flex flex-col min-h-screen">
+      {/* Wrapper for full-screen layout */}
+      <div className="flex flex-col min-h-screen w-full overflow-x-hidden">
         {/* Navbar */}
         <Navbar />
 
         {/* Main Content */}
-        <main className="flex-grow container mx-auto p-4">
+        <main className="flex-grow w-full">
           <Routes>
             {/* Home Page */}
             <Route
               path="/"
               element={
-                <div className="text-center">
-                  <h1 className="text-4xl font-bold mb-4 text-gray-800">
-                    PregnancyJourney
-                  </h1>
-                  <Register />
-                  {data && (
-                    <p className="mt-4 text-gray-600">
-                      Data from backend: {data}
-                    </p>
-                  )}
+                <div className="flex items-center justify-center w-full min-h-screen bg-gray-50">
+                  <div className="text-center">
+                    <h1 className="text-4xl font-bold mb-4 text-gray-800">
+                      PregnancyJourney
+                    </h1>
+                    <Register />
+                    {data && (
+                      <p className="mt-4 text-gray-600">
+                        Data from backend: {data}
+                      </p>
+                    )}
+                  </div>
                 </div>
               }
             />
@@ -53,30 +55,53 @@ function App() {
             <Route
               path="/register"
               element={
-                <div className="text-center">
-                  <h1 className="text-2xl font-bold mb-4 text-gray-800">
-                    Register Page
-                  </h1>
-                  <Register />
+                <div className="flex items-center justify-center w-full min-h-screen bg-gray-50">
+                  <div className="text-center">
+                    <h1 className="text-2xl font-bold mb-4 text-gray-800">
+                      Register Page
+                    </h1>
+                    <Register />
+                  </div>
                 </div>
               }
             />
 
             {/* Email Verification */}
-            <Route path="/verify/:token" element={<EmailVerification />} />
+            <Route
+              path="/verify/:token"
+              element={
+                <div className="flex items-center justify-center w-full min-h-screen bg-gray-50">
+                  <EmailVerification />
+                </div>
+              }
+            />
 
-            {/* Login */}
-            <Route path="/login" element={<Login />} />
+            {/* Login Page */}
+            <Route
+              path="/login"
+              element={
+                <div className="flex items-center justify-center w-full min-h-screen bg-gray-50">
+                  <Login />
+                </div>
+              }
+            />
 
-            {/* Protected Route */}
+            {/* Protected Route for Dashboard */}
             <Route element={<ProtectedRoute />}>
-              <Route path="/dashboard" element={<Dashboard />} />
+              <Route
+                path="/dashboard"
+                element={
+                  <div className="flex items-center justify-center w-full min-h-screen bg-gray-100">
+                    <Dashboard />
+                  </div>
+                }
+              />
             </Route>
           </Routes>
         </main>
 
         {/* Footer */}
-        <footer className="bg-gray-800 text-white text-center py-4 mt-4">
+        <footer className="bg-gray-800 text-white text-center py-4 w-full">
           <p>&copy; 2024 PregnancyJourney. All rights reserved.</p>
         </footer>
       </div>
