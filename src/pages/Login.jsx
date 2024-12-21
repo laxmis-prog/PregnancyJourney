@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -18,6 +20,12 @@ const Login = () => {
         if (data.success) {
           // Successful login
           console.log("Login successful", data);
+
+          // Optionally, you can store the authentication token or user data in localStorage
+          localStorage.setItem("authToken", data.token); // Store token or user data
+
+          // Redirect to dashboard
+          navigate("/dashboard"); // Redirect to the dashboard route
         } else {
           // Handle backend validation errors
           setError(data.message);

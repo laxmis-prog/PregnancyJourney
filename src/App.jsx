@@ -5,6 +5,8 @@ import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import EmailVerification from "./pages/EmailVerification";
 import Login from "./pages/Login";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   const [data, setData] = useState(null); // State to store backend data
@@ -59,12 +61,21 @@ function App() {
                 </div>
               }
             />
+
+            {/* Email Verification */}
             <Route path="/verify/:token" element={<EmailVerification />} />
+
+            {/* Login */}
             <Route path="/login" element={<Login />} />
+
+            {/* Protected Route */}
+            <Route element={<ProtectedRoute />}>
+              <Route path="/dashboard" element={<Dashboard />} />
+            </Route>
           </Routes>
         </main>
 
-        {/* Footer (Optional) */}
+        {/* Footer */}
         <footer className="bg-gray-800 text-white text-center py-4 mt-4">
           <p>&copy; 2024 PregnancyJourney. All rights reserved.</p>
         </footer>
