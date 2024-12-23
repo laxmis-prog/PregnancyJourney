@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Dashboard from "./pages/Dashboard";
 import "./App.css";
+import Footer from "./components/Footer";
 
 function App() {
   const [data, setData] = useState(null);
@@ -99,11 +100,7 @@ function App() {
             </Route>
           </Routes>
         </main>
-
-        {/* Footer */}
-        <footer className="bg-gray-800 text-white text-center py-4 w-full">
-          <p>&copy; 2024 PregnancyJourney. All rights reserved.</p>
-        </footer>
+        <Footer />
       </div>
     </Router>
   );
