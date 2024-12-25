@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Register from "./pages/Register";
@@ -6,22 +5,11 @@ import EmailVerification from "./pages/EmailVerification";
 import Login from "./pages/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Dashboard from "./pages/Dashboard";
-import "./App.css";
+import Home from "./pages/Home";
 import Footer from "./components/Footer";
+import "./App.css";
 
 function App() {
-  const [data, setData] = useState(null);
-
-  useEffect(() => {
-    fetch("http://localhost:5000/api/data")
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        setData(data.message);
-      })
-      .catch((error) => console.error("Error fetching data:", error));
-  }, []);
-
   return (
     <Router>
       {/* Wrapper for full-screen layout */}
@@ -37,17 +25,7 @@ function App() {
               path="/"
               element={
                 <div className="flex items-center justify-center w-full min-h-screen bg-gray-50">
-                  <div className="text-center">
-                    <h1 className="text-4xl font-bold mb-4 text-gray-800">
-                      PregnancyJourney
-                    </h1>
-                    <Register />
-                    {data && (
-                      <p className="mt-4 text-gray-600">
-                        Data from backend: {data}
-                      </p>
-                    )}
-                  </div>
+                  <Home />
                 </div>
               }
             />
@@ -100,6 +78,8 @@ function App() {
             </Route>
           </Routes>
         </main>
+
+        {/* Footer */}
         <Footer />
       </div>
     </Router>
