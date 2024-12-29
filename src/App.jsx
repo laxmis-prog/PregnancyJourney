@@ -14,73 +14,75 @@ function App() {
     <Router>
       {/* Wrapper for full-screen layout */}
       <div className="flex flex-col min-h-screen w-full overflow-x-hidden">
-        {/* Navbar */}
-        <Navbar />
-
-        {/* Main Content */}
-        <main className="flex-grow w-full">
-          <Routes>
-            {/* Home Page */}
-            <Route
-              path="/"
-              element={
+        <Routes>
+          {/* Home Page */}
+          <Route
+            path="/"
+            element={
+              <>
+                <Navbar />
                 <div className="flex items-center justify-center w-full min-h-screen bg-gray-50">
                   <Home />
                 </div>
-              }
-            />
+                <Footer />
+              </>
+            }
+          />
 
-            {/* Register Page */}
-            <Route
-              path="/register"
-              element={
-                <div className="flex items-center justify-center w-full min-h-screen bg-gray-50">
-                  <div className="text-center">
-                    <h1 className="text-2xl font-bold mb-4 text-gray-800">
-                      Register Page
-                    </h1>
-                    <Register />
-                  </div>
-                </div>
-              }
-            />
+          {/* Register Page (Standalone, No Navbar & Footer) */}
+          <Route
+            path="/register"
+            element={
+              <div className="w-full min-h-screen bg-gray-50">
+                <Register />
+              </div>
+            }
+          />
 
-            {/* Email Verification */}
-            <Route
-              path="/verify/:token"
-              element={
+          {/* Email Verification */}
+          <Route
+            path="/verify/:token"
+            element={
+              <>
+                <Navbar />
                 <div className="flex items-center justify-center w-full min-h-screen bg-gray-50">
                   <EmailVerification />
                 </div>
-              }
-            />
+                <Footer />
+              </>
+            }
+          />
 
-            {/* Login Page */}
-            <Route
-              path="/login"
-              element={
+          {/* Login Page */}
+          <Route
+            path="/login"
+            element={
+              <>
+                <Navbar />
                 <div className="flex items-center justify-center w-full min-h-screen bg-gray-50">
                   <Login />
                 </div>
-              }
-            />
+                <Footer />
+              </>
+            }
+          />
 
-            {/* Protected Route for Dashboard */}
-            <Route element={<ProtectedRoute />}>
-              <Route
-                path="/dashboard"
-                element={
+          {/* Protected Route for Dashboard */}
+          <Route element={<ProtectedRoute />}>
+            <Route
+              path="/dashboard"
+              element={
+                <>
+                  <Navbar />
                   <div className="flex items-center justify-center w-full min-h-screen bg-gray-100">
                     <Dashboard />
                   </div>
-                }
-              />
-            </Route>
-          </Routes>
-        </main>
-
-        {/* Footer */}
-        <Footer />
+                  <Footer />
+                </>
+              }
+            />
+          </Route>
+        </Routes>
       </div>
     </Router>
   );

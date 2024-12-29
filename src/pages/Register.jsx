@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 const Register = () => {
+  const [dueDate, setDueDate] = useState("");
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -20,7 +21,7 @@ const Register = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, username, password }),
+        body: JSON.stringify({ dueDate, email, username, password }),
       });
       const data = await response.text();
       setMessage(data);
@@ -30,29 +31,42 @@ const Register = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
-        {/* Logo Section */}
-        <div className="text-center mb-6">
-          <img
-            src="/images/logo.png"
-            alt="Logo"
-            className="w-24 h-24 mx-auto"
-          />
-        </div>
-
+    <div className="flex justify-center items-center min-h-screen bg-[#FADADD]">
+      {/* Registration Card */}
+      <div className="w-full max-w-lg bg-white rounded-lg shadow-lg p-8 md:p-10">
         {/* Title */}
-        <h2 className="text-2xl font-bold mb-4 text-center text-gray-800">
-          Register
+        <h2 className="text-3xl font-extrabold text-gray-800 text-center mb-2">
+          Create Your Account
         </h2>
+        <p className="text-gray-500 text-sm text-center mb-6">
+          Join us on your pregnancy journey
+        </p>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Form Section */}
+        <form onSubmit={handleSubmit} className="space-y-5">
+          {/* Due Date Field */}
+          <div>
+            <label
+              htmlFor="dueDate"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              Due Date of the child
+            </label>
+            <input
+              id="dueDate"
+              type="date"
+              value={dueDate}
+              onChange={(e) => setDueDate(e.target.value)}
+              required
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#FF6F61] focus:outline-none"
+            />
+          </div>
+
           {/* Email Field */}
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-gray-700 mb-1"
             >
               Email
             </label>
@@ -62,7 +76,7 @@ const Register = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="mt-1 block w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-400 focus:outline-none"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#FF6F61] focus:outline-none"
               placeholder="Enter your email"
             />
           </div>
@@ -71,7 +85,7 @@ const Register = () => {
           <div>
             <label
               htmlFor="username"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-gray-700 mb-1"
             >
               Username
             </label>
@@ -81,7 +95,7 @@ const Register = () => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
-              className="mt-1 block w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-400 focus:outline-none"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#FF6F61] focus:outline-none"
               placeholder="Choose a username"
             />
           </div>
@@ -90,7 +104,7 @@ const Register = () => {
           <div>
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-gray-700 mb-1"
             >
               Password
             </label>
@@ -100,7 +114,7 @@ const Register = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="mt-1 block w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-400 focus:outline-none"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#FF6F61] focus:outline-none"
               placeholder="Enter your password"
             />
           </div>
@@ -109,7 +123,7 @@ const Register = () => {
           <div>
             <label
               htmlFor="confirmPassword"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-gray-700 mb-1"
             >
               Confirm Password
             </label>
@@ -119,7 +133,7 @@ const Register = () => {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
-              className="mt-1 block w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-400 focus:outline-none"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#FF6F61] focus:outline-none"
               placeholder="Confirm your password"
             />
           </div>
@@ -127,9 +141,9 @@ const Register = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-300"
+            className="w-full py-2 px-4 bg-[#FF6F61] text-white font-medium text-lg rounded-md hover:bg-[#e65a4f] transition duration-300"
           >
-            Register
+            Create Account
           </button>
         </form>
 
@@ -146,13 +160,22 @@ const Register = () => {
           </p>
         )}
 
+        {/* Divider */}
+        <div className="flex items-center my-6">
+          <hr className="flex-grow border-t border-gray-300" />
+          <span className="px-3 text-gray-500 text-sm">or</span>
+          <hr className="flex-grow border-t border-gray-300" />
+        </div>
+
         {/* Login Redirect */}
-        <p className="mt-4 text-center text-sm text-gray-600">
+        <p className="text-center text-sm text-gray-600">
           Already have an account?{" "}
-          <a href="/login" className="text-blue-600 hover:underline">
+          <a
+            href="/login"
+            className="text-[#FF6F61] font-medium hover:underline"
+          >
             Log in here
           </a>
-          .
         </p>
       </div>
     </div>
