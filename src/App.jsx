@@ -39,7 +39,7 @@ function App() {
             }
           />
 
-          {/* Email Verification */}
+          {/* Email Verification Page */}
           <Route
             path="/verify/:token"
             element={
@@ -53,17 +53,13 @@ function App() {
             }
           />
 
-          {/* Login Page */}
+          {/* Login Page (No Navbar & Footer) */}
           <Route
             path="/login"
             element={
-              <>
-                <Navbar />
-                <div className="flex items-center justify-center w-full min-h-screen bg-gray-50">
-                  <Login />
-                </div>
-                <Footer />
-              </>
+              <div className="flex items-center justify-center w-full min-h-screen bg-white">
+                <Login />
+              </div>
             }
           />
 
