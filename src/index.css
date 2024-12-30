@@ -12,3 +12,10 @@ body,
   height: 100%;
   overflow-x: hidden; /* Prevent horizontal scrolling */
 }
+
+/* Smooth Hover Transition */
+nav a {
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}

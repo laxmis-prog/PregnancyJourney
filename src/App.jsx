@@ -7,6 +7,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Dashboard from "./pages/Dashboard";
 import Home from "./pages/Home";
 import Footer from "./components/Footer";
+import DashboardLayout from "./layouts/DashBoardLayout"; // Import the new layout
 import "./App.css";
 
 function App() {
@@ -63,20 +64,23 @@ function App() {
             }
           />
 
-          {/* Protected Route for Dashboard */}
+          {/* Protected Routes for Dashboard */}
           <Route element={<ProtectedRoute />}>
-            <Route
-              path="/dashboard"
-              element={
-                <>
-                  <Navbar />
-                  <div className="flex items-center justify-center w-full min-h-screen bg-gray-100">
-                    <Dashboard />
+            <Route element={<DashboardLayout />}>
+              {/* Dashboard Main Page */}
+              <Route path="/dashboard" element={<Dashboard />} />
+
+              {/* Additional Dashboard Routes */}
+              <Route
+                path="/dashboard/calendar"
+                element={
+                  <div>
+                    <h2 className="text-2xl font-bold mb-4">Calendar</h2>
+                    <p>This is the calendar section of your dashboard.</p>
                   </div>
-                  <Footer />
-                </>
-              }
-            />
+                }
+              />
+            </Route>
           </Route>
         </Routes>
       </div>
