@@ -2,20 +2,105 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Global reset to prevent unwanted scrolling and ensure full width/height */
+/* Global reset to prevent unwanted spacing */
 html,
 body,
 #root {
+  height: 100%;
   margin: 0;
   padding: 0;
   width: 100%;
-  height: 100%;
-  overflow-x: hidden; /* Prevent horizontal scrolling */
+  /* Removed flex on body and root for better layout control */
 }
 
-/* Smooth Hover Transition */
-nav a {
-  transition:
-    background-color 0.3s ease,
-    color 0.3s ease;
+/* Optional: Add a wrapper class around your main content for better control */
+body {
+  font-family: Arial, sans-serif;
+}
+
+#root {
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+/* Prevent unwanted padding or margin in main content */
+main {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* React Big Calendar Custom Styles */
+.rbc-calendar {
+  font-family: "Inter", sans-serif;
+}
+
+/* Calendar Event Tile Hover Effect */
+.rbc-day-bg:hover {
+  background-color: #ff6f61 !important; /* Coral Hover */
+  cursor: pointer;
+}
+
+/* Active Day Highlight */
+.rbc-day-bg.rbc-today {
+  background-color: #ffcdd2 !important; /* Light Pink for Today */
+}
+
+/* Event Styling */
+.rbc-event {
+  background-color: #ff6f61 !important; /* Coral for events */
+  border: none;
+  color: white;
+  font-weight: bold;
+}
+
+/* Event Hover Effect */
+.rbc-event:hover {
+  background-color: #ff4f41 !important; /* Darker Coral on hover */
+}
+
+/* Styling the buttons (Month, Week, Day, Agenda, Today, etc.) */
+.rbc-btn-group .rbc-btn {
+  background-color: #ff6f61 !important; /* Coral color */
+  color: white !important; /* White text */
+  border: none !important; /* Remove borders */
+  padding: 8px 16px !important; /* Ensure buttons have padding */
+  text-transform: uppercase !important; /* Make text uppercase for consistency */
+  font-weight: bold !important;
+}
+
+/* Hover Effect on the buttons */
+.rbc-btn-group .rbc-btn:hover {
+  background-color: #ff4f41 !important; /* Darker Coral on hover */
+  color: white !important;
+}
+
+/* Active state of the button */
+.rbc-btn-group .rbc-btn-active {
+  background-color: #ff6f61 !important; /* Coral color for active button */
+  color: white !important;
+  border: none !important;
+}
+
+/* Customizing Previous and Next Arrow Buttons */
+.rbc-btn-group .rbc-btn.rbc-btn-prev,
+.rbc-btn-group .rbc-btn.rbc-btn-next {
+  color: white !important;
+}
+
+/* Customizing the label (e.g., "January 2024") */
+.rbc-toolbar-label {
+  color: #ff6f61 !important; /* Coral label text */
+}
+
+/* Adjusting the icons in the toolbar (Previous, Next) */
+.rbc-toolbar button.rbc-btn-group {
+  background-color: #ff6f61 !important; /* Coral background for toolbar icons */
+  color: white !important;
+  border: none !important;
+}
+
+/* Add a border radius to the buttons */
+.rbc-btn-group .rbc-btn,
+.rbc-toolbar button.rbc-btn-group {
+  border-radius: 5px !important;
 }

@@ -9,6 +9,7 @@ import Home from "./pages/Home";
 import Footer from "./components/Footer";
 import DashboardLayout from "./layouts/DashBoardLayout"; // Import the new layout
 import "./App.css";
+import CalendarPage from "./pages/CalendarPage";
 
 function App() {
   return (
@@ -70,16 +71,8 @@ function App() {
               {/* Dashboard Main Page */}
               <Route path="/dashboard" element={<Dashboard />} />
 
-              {/* Additional Dashboard Routes */}
-              <Route
-                path="/dashboard/calendar"
-                element={
-                  <div>
-                    <h2 className="text-2xl font-bold mb-4">Calendar</h2>
-                    <p>This is the calendar section of your dashboard.</p>
-                  </div>
-                }
-              />
+              {/* Calendar Page */}
+              <Route path="/dashboard/calendar" element={<CalendarPage />} />
             </Route>
           </Route>
         </Routes>
