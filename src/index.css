@@ -10,7 +10,6 @@ body,
   margin: 0;
   padding: 0;
   width: 100%;
-  /* Removed flex on body and root for better layout control */
 }
 
 /* Optional: Add a wrapper class around your main content for better control */
@@ -103,4 +102,15 @@ main {
 .rbc-btn-group .rbc-btn,
 .rbc-toolbar button.rbc-btn-group {
   border-radius: 5px !important;
+}
+
+/* Baby Development */
+/*Progress Bar Styles */
+.progress-bar {
+  height: 24px;
+  border-radius: 8px;
+  background: #ff6f61;
+  color: white;
+  text-align: center;
+  font-weight: bold;
 }

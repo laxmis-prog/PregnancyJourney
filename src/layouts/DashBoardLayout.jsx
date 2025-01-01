@@ -11,7 +11,7 @@ const DashboardLayout = () => {
         <nav className="flex flex-col mt-4 gap-2 flex-1">
           {/* Baby's Development Link */}
           <NavLink
-            to="/dashboard"
+            to="/dashboard/baby-development"
             end
             className={({ isActive }) =>
               `p-3 mx-2 rounded-md ${

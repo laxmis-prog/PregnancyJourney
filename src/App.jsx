@@ -7,9 +7,10 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Dashboard from "./pages/Dashboard";
 import Home from "./pages/Home";
 import Footer from "./components/Footer";
-import DashboardLayout from "./layouts/DashBoardLayout"; // Import the new layout
+import DashboardLayout from "./layouts/DashBoardLayout";
 import "./App.css";
 import CalendarPage from "./pages/CalendarPage";
+import BabyDevelopmentPage from "./pages/BabyDevelopmentPage"; // Import the new page
 
 function App() {
   return (
@@ -73,6 +74,12 @@ function App() {
 
               {/* Calendar Page */}
               <Route path="/dashboard/calendar" element={<CalendarPage />} />
+
+              {/* Baby Development Page */}
+              <Route
+                path="/dashboard/baby-development"
+                element={<BabyDevelopmentPage />}
+              />
             </Route>
           </Route>
         </Routes>
