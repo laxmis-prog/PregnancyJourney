@@ -19,7 +19,7 @@ const Login = () => {
       .then((data) => {
         if (data.success) {
           localStorage.setItem("authToken", data.token);
-          navigate("/dashboard");
+          navigate("/dashboard/baby-development", { replace: true });
         } else {
           setError(data.message);
         }
