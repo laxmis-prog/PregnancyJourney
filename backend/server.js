@@ -3,14 +3,16 @@ import express from "express";
 import bcrypt from "bcryptjs";
 import cors from "cors";
 import { sendVerificationEmail } from "./mail.js";
-import { generateVerificationToken, verifyEmail } from "./verification.js"; // Import the functions from verification.js
+import { generateVerificationToken, verifyEmail } from "./verification.js";
 import emailVerificationRoutes from "./routes/emailVerificationRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
+import dueDateRoutes from "./routes/dueDateRoutes.js"; // Import dueDateRoutes
 
 const app = express();
 const port = 5000;
 
-app.use(emailVerificationRoutes); // Use the new route
+// Middleware for parsing JSON
+app.use(express.json());
 
 // Allow requests from your frontend
 app.use(
@@ -21,15 +23,15 @@ app.use(
   })
 );
 
-// Middleware to parse JSON
-app.use(express.json());
+// Routes
+app.use(emailVerificationRoutes); // Email verification routes
+app.use("/api", authRoutes); // Authentication routes
+app.use("/api", dueDateRoutes); // 🚀 Add Due Date Routes here
 
 // Route to send data to the frontend
 app.get("/api/data", (req, res) => {
   res.json({ message: "Hello from the server!" });
 });
-
-app.use("/api", authRoutes);
 
 // Registration Route
 app.post("/api/register", async (req, res) => {
