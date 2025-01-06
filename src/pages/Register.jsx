@@ -31,14 +31,14 @@ const Register = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-[#FADADD]">
+    <div className="flex justify-center items-center min-h-screen bg-white">
       {/* Registration Card */}
-      <div className="w-full max-w-lg bg-white rounded-lg shadow-lg p-8 md:p-10">
+      <div className="w-full max-w-lg bg-[#FADADD] rounded-lg p-8 md:p-10">
         {/* Title */}
         <h2 className="text-3xl font-extrabold text-gray-800 text-center mb-2">
           Create Your Account
         </h2>
-        <p className="text-gray-500 text-sm text-center mb-6">
+        <p className="text-gray-700 text-sm text-center mb-6">
           Join us on your pregnancy journey
         </p>
 
@@ -163,12 +163,12 @@ const Register = () => {
         {/* Divider */}
         <div className="flex items-center my-6">
           <hr className="flex-grow border-t border-gray-300" />
-          <span className="px-3 text-gray-500 text-sm">or</span>
+          <span className="px-3 text-gray-700 text-sm">or</span>
           <hr className="flex-grow border-t border-gray-300" />
         </div>
 
         {/* Login Redirect */}
-        <p className="text-center text-sm text-gray-600">
+        <p className="text-center text-sm text-gray-700">
           Already have an account?{" "}
           <a
             href="/login"

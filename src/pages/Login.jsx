@@ -32,7 +32,7 @@ const Login = () => {
   return (
     <div className="flex justify-center items-center w-full min-h-screen bg-white">
       {/* Login Card */}
-      <div className="w-full max-w-lg bg-[#FADADD] rounded-lg shadow-lg p-8 md:p-10">
+      <div className="w-full max-w-lg bg-[#FADADD] rounded-lg p-8 md:p-10">
         {/* Title */}
         <h2 className="text-3xl font-extrabold text-gray-800 text-center mb-2">
           Welcome Back!
