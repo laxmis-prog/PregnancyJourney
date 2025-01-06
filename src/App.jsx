@@ -24,7 +24,7 @@ function App() {
             element={
               <>
                 <Navbar />
-                <div className="flex items-center justify-center w-full min-h-screen bg-gray-50">
+                <div className="flex items-center justify-center w-full min-h-screen bg-gray-50 mt-10">
                   <Home />
                 </div>
                 <Footer />
