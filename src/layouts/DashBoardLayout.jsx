@@ -1,6 +1,16 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 
 const DashboardLayout = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // Clear authentication token
+    localStorage.removeItem("authToken");
+
+    // Redirect to homepage
+    navigate("/", { replace: true });
+  };
+
   return (
     <div className="flex min-h-screen">
       {/* Sidebar */}
@@ -38,18 +48,13 @@ const DashboardLayout = () => {
           {/* Spacer to push Logout to the bottom */}
           <div className="flex-grow"></div>
 
-          {/* Logout Link */}
-          <NavLink
-            to="/logout"
-            end
-            className={({ isActive }) =>
-              `p-3 mx-2 rounded-md ${
-                isActive ? "bg-red-600 text-white" : "text-red-600"
-              } hover:bg-red-700 hover:text-white`
-            }
+          {/* Logout Button */}
+          <button
+            onClick={handleLogout}
+            className="p-3 mx-2 rounded-md text-red-600 hover:bg-red-700 hover:text-white"
           >
             Logout
-          </NavLink>
+          </button>
         </nav>
       </aside>
 

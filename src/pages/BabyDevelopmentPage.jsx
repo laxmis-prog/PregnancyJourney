@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import axios from "axios"; // Make sure axios is installed
+import axios from "axios";
 
 const BabyDevelopmentPage = () => {
   const [dueDate, setDueDate] = useState(""); // Store the due date
   const [isSaving, setIsSaving] = useState(false); // Loading state for saving
   const [loading, setLoading] = useState(true); // Loading state for fetching
+  const [message, setMessage] = useState(""); // Success/Error message
   const userName = "Emily"; // Replace with actual user data from your auth context
 
   const babyDevelopmentInfo =
@@ -15,13 +16,19 @@ const BabyDevelopmentPage = () => {
     const fetchDueDate = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/user/due-date"
-        ); // Use the correct full URL
+          "http://localhost:5000/api/user/due-date",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+            },
+          }
+        );
         if (response.data.due_date) {
-          setDueDate(response.data.due_date); // Fixed key here
+          setDueDate(response.data.due_date);
         }
       } catch (error) {
         console.error("Failed to fetch due date:", error);
+        setMessage("Failed to fetch due date.");
       } finally {
         setLoading(false);
       }
@@ -38,16 +45,24 @@ const BabyDevelopmentPage = () => {
   // Save due date to backend
   const saveDueDate = async () => {
     setIsSaving(true);
+    setMessage("");
     try {
-      await axios.post("http://localhost:5000/api/user/due-date", {
-        due_date: dueDate,
-      });
-      console.log("Due date saved successfully");
+      await axios.post(
+        "http://localhost:5000/api/user/due-date",
+        { due_date: dueDate },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+        }
+      );
+      setMessage("Due date saved successfully!");
     } catch (error) {
       console.error(
         "Failed to save due date:",
         error.response?.data || error.message
       );
+      setMessage("Failed to save due date.");
     } finally {
       setIsSaving(false);
     }
@@ -84,6 +99,17 @@ const BabyDevelopmentPage = () => {
         >
           {isSaving ? "Saving..." : "Save Due Date"}
         </button>
+        {message && (
+          <p
+            className={`mt-4 text-sm ${
+              message.includes("successfully")
+                ? "text-green-600"
+                : "text-red-600"
+            }`}
+          >
+            {message}
+          </p>
+        )}
         {dueDate && (
           <p className="mt-4 text-gray-700">
             Selected Due Date:{" "}

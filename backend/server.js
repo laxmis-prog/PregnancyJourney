@@ -7,6 +7,7 @@ import { generateVerificationToken, verifyEmail } from "./verification.js";
 import emailVerificationRoutes from "./routes/emailVerificationRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import dueDateRoutes from "./routes/dueDateRoutes.js"; // Import dueDateRoutes
+import eventRoutes from "./routes/eventRoutes.js"; // Import eventsRoutes
 
 const app = express();
 const port = 5000;
@@ -24,9 +25,10 @@ app.use(
 );
 
 // Routes
-app.use(emailVerificationRoutes); // Email verification routes
-app.use("/api", authRoutes); // Authentication routes
-app.use("/api", dueDateRoutes); // 🚀 Add Due Date Routes here
+app.use("/api/email-verification", emailVerificationRoutes); // Email verification routes
+app.use("/api/auth", authRoutes); // Authentication routes
+app.use("/api/due-date", dueDateRoutes); // Add Due Date Routes here
+app.use("/api/events", eventRoutes); // Add Events Routes here
 
 // Route to send data to the frontend
 app.get("/api/data", (req, res) => {

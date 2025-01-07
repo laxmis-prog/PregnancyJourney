@@ -9,6 +9,7 @@ import Home from "./pages/Home";
 import Footer from "./components/Footer";
 import DashboardLayout from "./layouts/DashBoardLayout";
 import "./App.css";
+import "./index.css";
 import CalendarPage from "./pages/CalendarPage";
 import BabyDevelopmentPage from "./pages/BabyDevelopmentPage"; // Import the new page
 

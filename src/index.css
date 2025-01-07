@@ -114,3 +114,88 @@ main {
   text-align: center;
   font-weight: bold;
 }
+
+/* Calendar event styles */
+
+/* Modal Overlay (background) */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Modal Content (container) */
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Light shadow for better visibility */
+}
+
+/* Input Fields */
+.input-field {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  color: #333333; /* Dark gray text */
+}
+
+/* Button Styles */
+.btn-save,
+.btn-cancel {
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  transition: all 0.3s ease; /* Smooth transition for hover effect */
+}
+
+/* Save Button */
+.btn-save {
+  background-color: #ff6f61; /* Coral background */
+  color: white;
+}
+
+/* Cancel Button */
+.btn-cancel {
+  background-color: #ffb6c1; /* Soft Pink background */
+  color: white;
+}
+
+/* Hover Effects for Buttons */
+.btn-save:hover {
+  background-color: #ff4f3a; /* Darker Coral on hover */
+  opacity: 0.9;
+}
+
+.btn-cancel:hover {
+  background-color: #f7a7b8; /* Lighter Soft Pink on hover */
+  opacity: 0.9;
+}
+
+/* Hover Text Color */
+.modal-content h3,
+.input-field,
+.btn-save,
+.btn-cancel {
+  color: #333333; /* Default text color */
+}
+
+.modal-content h3:hover,
+.input-field:hover,
+.btn-save:hover,
+.btn-cancel:hover {
+  color: #ff6f61; /* Coral hover color */
+}

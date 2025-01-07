@@ -1,5 +1,5 @@
 import express from "express";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs"; // Use bcryptjs for consistency with other parts of your code
 import db from "../db.js"; // Database connection
 
 const router = express.Router();
@@ -42,7 +42,11 @@ router.post("/login", async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Login successful",
-      user: user, // Respond with the user data (e.g., user id, name)
+      user: {
+        id: user.id,
+        email: user.email,
+        username: user.username,
+      }, // Respond with the user data (e.g., user id, email, username)
     });
   } catch (error) {
     console.error("Login error:", error);
