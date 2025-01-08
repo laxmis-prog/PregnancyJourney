@@ -1,6 +1,7 @@
 import express from "express";
-import bcrypt from "bcryptjs"; // Use bcryptjs for consistency with other parts of your code
-import db from "../db.js"; // Database connection
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import db from "../db.js";
 
 const router = express.Router();
 
@@ -8,7 +9,6 @@ const router = express.Router();
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
-  // Check if email and password are provided
   if (!email || !password) {
     return res
       .status(400)
@@ -16,7 +16,6 @@ router.post("/login", async (req, res) => {
   }
 
   try {
-    // Query the database for the user
     const [rows] = await db.query("SELECT * FROM users WHERE email = ?", [
       email,
     ]);
@@ -27,26 +26,30 @@ router.post("/login", async (req, res) => {
         .json({ success: false, message: "User not found" });
     }
 
-    // Extract the user record
-    const user = rows[0]; // Ensure we're working with the first record
-
-    // Check if the password matches
+    const user = rows[0];
     const isPasswordValid = await bcrypt.compare(password, user.password);
+
     if (!isPasswordValid) {
       return res
         .status(401)
         .json({ success: false, message: "Invalid credentials" });
     }
 
-    // Respond with success
+    const token = jwt.sign(
+      { id: user.id, email: user.email }, // Include user ID and email
+      "your_jwt_secret",
+      { expiresIn: "1h" }
+    );
+
     res.status(200).json({
       success: true,
       message: "Login successful",
+      token, // Send token to the frontend
       user: {
         id: user.id,
         email: user.email,
         username: user.username,
-      }, // Respond with the user data (e.g., user id, email, username)
+      },
     });
   } catch (error) {
     console.error("Login error:", error);

@@ -1,6 +1,6 @@
 import express from "express";
 import db from "../db.js";
-import authenticateToken from "../middlewares/authMiddleware.js";
+import authenticateUser from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
@@ -8,16 +8,20 @@ const router = express.Router();
  * ✅ Save or Update Due Date
  * POST /api/user/due-date
  */
-router.post("/due-date", authenticateToken, (req, res) => {
-  const { due_date } = req.body; // Extract due_date from request body
-  const userId = req.user.id; // Extract user ID from token
+router.post("/due-date", authenticateUser, (req, res) => {
+  const { due_date } = req.body;
+  const userId = req.user.id;
 
-  // Validate required fields
+  if (!userId) {
+    return res
+      .status(401)
+      .json({ error: "Unauthorized: Missing user ID in token" });
+  }
+
   if (!due_date) {
     return res.status(400).json({ error: "Due date is required" });
   }
 
-  // Use UPSERT to simplify logic
   const query = `
     INSERT INTO due_dates (user_id, due_date) 
     VALUES (?, ?) 
@@ -37,8 +41,14 @@ router.post("/due-date", authenticateToken, (req, res) => {
  * ✅ Fetch Due Date
  * GET /api/user/due-date
  */
-router.get("/due-date", authenticateToken, (req, res) => {
-  const userId = req.user.id; // Extract user ID from token
+router.get("/due-date", authenticateUser, (req, res) => {
+  const userId = req.user.id;
+
+  if (!userId) {
+    return res
+      .status(401)
+      .json({ error: "Unauthorized: Missing user ID in token" });
+  }
 
   const query = "SELECT due_date FROM due_dates WHERE user_id = ?";
   db.query(query, [userId], (err, results) => {

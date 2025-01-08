@@ -27,7 +27,7 @@ app.use(
 // Routes
 app.use("/api/email-verification", emailVerificationRoutes); // Email verification routes
 app.use("/api/auth", authRoutes); // Authentication routes
-app.use("/api/due-date", dueDateRoutes); // Add Due Date Routes here
+app.use("/api/user", dueDateRoutes); // Add Due Date Routes here
 app.use("/api/events", eventRoutes); // Add Events Routes here
 
 // Route to send data to the frontend
