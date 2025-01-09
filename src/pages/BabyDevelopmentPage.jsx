@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import strawberryImage from "../assets/strawberry.jpg";
 
 const BabyDevelopmentPage = () => {
   const [dueDate, setDueDate] = useState(""); // Store the due date
@@ -148,7 +149,7 @@ const BabyDevelopmentPage = () => {
         </div>
         <div className="flex-1 text-center">
           <img
-            src="public/strawberry.jpg"
+            src={strawberryImage} // Use the imported image
             alt="Strawberry Illustration"
             className="w-64 h-64 mx-auto rounded-full"
           />
