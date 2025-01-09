@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import strawberryImage from "../assets/strawberry.jpg";
+import babyDevelopmentData from "./babyDevelopmentData"; // Import the new baby development data
+import dayjs from "dayjs";
 
 const BabyDevelopmentPage = () => {
   const [dueDate, setDueDate] = useState(""); // Store the due date
@@ -8,9 +9,7 @@ const BabyDevelopmentPage = () => {
   const [loading, setLoading] = useState(true); // Loading state for fetching
   const [message, setMessage] = useState(""); // Success/Error message
   const [showDueDateCard, setShowDueDateCard] = useState(false); // Show/hide due date card
-
-  const babyDevelopmentInfo =
-    "At 10 weeks, your baby is about the size of a strawberry. Their tiny organs are starting to function, and little fingers and toes are clearly defined!";
+  const [currentWeek, setCurrentWeek] = useState(0); // Store the current week
 
   // Fetch due date from backend on page load
   useEffect(() => {
@@ -26,6 +25,7 @@ const BabyDevelopmentPage = () => {
         );
         if (response.data.due_date) {
           setDueDate(response.data.due_date);
+          calculateCurrentWeek(response.data.due_date); // Calculate current week when due date is fetched
         }
       } catch (error) {
         console.error("Failed to fetch due date:", error);
@@ -37,6 +37,14 @@ const BabyDevelopmentPage = () => {
 
     fetchDueDate();
   }, []);
+
+  // Function to calculate current week based on the due date
+  const calculateCurrentWeek = (dueDate) => {
+    const today = dayjs();
+    const startOfPregnancy = dayjs(dueDate).subtract(280, "day"); // 280 days is the average length of a pregnancy
+    const week = Math.ceil(today.diff(startOfPregnancy, "day") / 7); // Calculate the week number
+    setCurrentWeek(week);
+  };
 
   // Handle due date change
   const handleDueDateChange = (e) => {
@@ -58,20 +66,28 @@ const BabyDevelopmentPage = () => {
         }
       );
       setMessage("Due date saved successfully!");
+      calculateCurrentWeek(dueDate); // Recalculate current week when new due date is saved
     } catch (error) {
-      console.error(
-        "Failed to save due date:",
-        error.response?.data || error.message
-      );
+      console.error("Failed to save due date:", error);
       setMessage("Failed to save due date.");
     } finally {
       setIsSaving(false);
     }
   };
 
+  // Show loading state
   if (loading) {
     return <p className="text-center mt-10">Loading...</p>;
   }
+
+  // Find the baby development info for the current week
+  const currentDevelopment = babyDevelopmentData.find(
+    (data) => data.week === currentWeek
+  ) || {
+    title: "Your Baby's Development",
+    description: "Loading...",
+    image: "",
+  };
 
   return (
     <div className="p-4 bg-white min-h-screen relative">
@@ -139,23 +155,22 @@ const BabyDevelopmentPage = () => {
       <div className="bg-[#FFC0CB] rounded-lg shadow-xl p-12 mb-12 max-w-7xl mx-auto flex flex-col md:flex-row items-center">
         <div className="flex-1 w-full h-80 md:pr-8">
           <h2 className="text-2xl font-bold mb-2 text-[#FF6F61]">
-            🌟 Your Baby at 10 Weeks
+            🌟 {currentDevelopment.title}
           </h2>
-          <p className="text-gray-700 mb-4">
+          <p className="text-gray-700 text-xl mb-4">
             Today marks a special milestone in your baby&apos;s development
             journey!
           </p>
-          <p className="text-gray-600 italic">{babyDevelopmentInfo}</p>
+          <p className="text-gray-600 text-xl italic">
+            {currentDevelopment.description}
+          </p>
         </div>
         <div className="flex-1 text-center">
           <img
-            src={strawberryImage} // Use the imported image
-            alt="Strawberry Illustration"
+            src={currentDevelopment.image}
+            alt={currentDevelopment.title}
             className="w-64 h-64 mx-auto rounded-full"
           />
-          <p className="text-sm text-gray-600 mt-2">
-            Your baby is the size of a strawberry 🍓
-          </p>
         </div>
       </div>
     </div>
