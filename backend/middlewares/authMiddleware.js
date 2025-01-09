@@ -2,8 +2,7 @@ import jwt from "jsonwebtoken";
 
 // Middleware to verify user authentication
 export const authenticateUser = (req, res, next) => {
-  const token = req.headers.authorization;
-
+  const token = req.header("Authorization").replace("Bearer ", "");
   if (!token) {
     return res
       .status(401)
@@ -11,7 +10,8 @@ export const authenticateUser = (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, "your_jwt_secret"); // Replace with your actual JWT secret key
+    const secret = "your_jwt_secret";
+    const decoded = jwt.verify(token, secret); // Replace with your actual JWT secret key
     req.user = decoded; // Attach user data to the request object
     next(); // Move to the next middleware/route handler
   } catch (error) {
